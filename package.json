@@ -1,0 +1,10 @@
+{
+  "name": "FrontCamp-Babel",
+  "version": "",
+  "description": "1.Used ES6 Fetch",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
