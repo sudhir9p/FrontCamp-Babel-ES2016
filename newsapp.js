@@ -1,13 +1,13 @@
 
+
 //Common class to do API calls.
 class FetchNewsData {
-    defaultUrl = 'https://newsapi.org/v2/';
     constructor(apiKey) {
         this.apiKey = apiKey;
     }
 
     fetchData(url) {
-        return fetch(`${this.defaultUrl}/${url}&apiKey=${this.apiKey}`)  //Used ES6 Fetch
+        return fetch(`https://newsapi.org/v2/${url}&apiKey=${this.apiKey}`)  //Used ES6 Fetch
             .then((resp) => resp.json()) //Used ES6 Template Strings
             .then((data) => {
                 return data;
@@ -20,9 +20,10 @@ class DisplayNews {
 
     constructor(apiKey) {
         this.apiKey = apiKey;
+        this.newsData=[];
     }
 
-    newsData = [];
+    
     createNode(element) {
         return document.createElement(element);
     }
@@ -105,5 +106,5 @@ const newsFeed = document.getElementById('newsFeedData');
 
 let obj = new DisplayNews();
 obj.displaySources(apiKey);
-channelsOnchange = () => obj.sourcesOnChange();
-getTopHeadLines = () => obj.getTopHeadLines(apiKey);
+let channelsOnchange = () => obj.sourcesOnChange();
+let getTopHeadLines = () => obj.getTopHeadLines(apiKey);
