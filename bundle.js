@@ -4,9 +4,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// import "es6-promise/auto";
-// import 'isomorphic-fetch';
-
 //Common class to do API calls.
 var FetchNewsData = function () {
     function FetchNewsData(apiKey) {
