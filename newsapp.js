@@ -6,12 +6,9 @@ class FetchNewsData {
         this.apiKey = apiKey;
     }
 
-    fetchData(url) {
+    async fetchData(url) {
         return fetch(`https://newsapi.org/v2/${url}&apiKey=${this.apiKey}`)  //Used ES6 Fetch
-            .then((resp) => resp.json()) //Used ES6 Template Strings
-            .then((data) => {
-                return data;
-            });
+
     }
 }
 
@@ -20,10 +17,10 @@ class DisplayNews {
 
     constructor(apiKey) {
         this.apiKey = apiKey;
-        this.newsData=[];
+        this.newsData = [];
     }
 
-    
+
     createNode(element) {
         return document.createElement(element);
     }
@@ -32,19 +29,20 @@ class DisplayNews {
         return parent.appendChild(el);
     }
 
-    displaySources(apikey) {
+    async displaySources(apikey) {
         const channelsDropdown = document.getElementById("ddlchannelslist");
         const fetchDataObj = new FetchNewsData(apikey)
-        fetchDataObj.fetchData("sources?language=en").then((data) => {
-            this.newsData = data.sources;
-            data.sources.map((item) => { //Used map on arrays
-                let option = this.createNode('option');
-                option.text = item.name;
-                option.id = option.value = item.id;
-                channelsDropdown.add(option);
-            });
-            this.sourcesOnChange();
+        debugger;
+        let apiData = await fetchDataObj.fetchData("sources?language=en");
+        let data = await apiData.json();  /*ES 2016*/
+        this.newsData = data.sources;
+        data.sources.map((item) => { //Used map on arrays
+            let option = this.createNode('option');
+            option.text = item.name;
+            option.id = option.value = item.id;
+            channelsDropdown.add(option);
         });
+        this.sourcesOnChange();
     }
 
     sourcesOnChange() {
@@ -70,14 +68,13 @@ class DisplayNews {
         document.getElementById("topHeadlines").innerHTML = "";
     }
 
-    getTopHeadLines(apiKey) {
+    async getTopHeadLines(apiKey) {
         const channelsDropdown = document.getElementById("ddlchannelslist");
         const selectedItemId = channelsDropdown.options[document.getElementById("ddlchannelslist").selectedIndex].value;
-        const fetchDataObj = new FetchNewsData(apiKey)
-        fetchDataObj.fetchData(`top-headlines?sources=${selectedItemId}`).then((data) => {
-            data.articles.map((item, index) => {
-                this.appendTopHeadlineNodes(`${selectedItemId}-${index}`, item);
-            });
+        const fetchDataObj = new FetchNewsData(apiKey);
+        let data = await (await fetchDataObj.fetchData(`top-headlines?sources=${selectedItemId}`)).json();   /*ES 2016*/
+        data.articles.map((item, index) => {
+            this.appendTopHeadlineNodes(`${selectedItemId}-${index}`, item);
         });
     }
 
